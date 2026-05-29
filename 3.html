@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全国31省份新能源汽车政策数量演变（2014-2024）桑基图</title>
+<style>
+  * {margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif;}
+  body {background:#f7f9fc;padding:20px;}
+  #main {width:100%;height:750px;background:#fff;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+  .title {font-size:24px;font-weight:600;color:#2d3748;text-align:center;margin-bottom:10px;}
+  .sub {font-size:14px;color:#718096;text-align:center;margin-bottom:20px;}
+</style>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+</head>
+<body>
+<div class="title">全国31省份新能源汽车政策数量演变（2014-2024）</div>
+<div id="main"></div>
+
+<script>
+const myChart = echarts.init(document.getElementById('main'));
+
+// 彩色节点：年份+省份（鲜艳高级配色）
+const nodes = [
+  {name:'2014',itemStyle:{color:'#1f77b4'}},
+  {name:'2018',itemStyle:{color:'#ff7f0e'}},
+  {name:'2021',itemStyle:{color:'#2ca02c'}},
+  {name:'2024',itemStyle:{color:'#d62728'}},
+  {name:'北京市',itemStyle:{color:'#9467bd'}},
+  {name:'天津市',itemStyle:{color:'#8c564b'}},
+  {name:'河北省',itemStyle:{color:'#e377c2'}},
+  {name:'山西省',itemStyle:{color:'#7f7f7f'}},
+  {name:'内蒙古自治区',itemStyle:{color:'#bcbd22'}},
+  {name:'辽宁省',itemStyle:{color:'#17becf'}},
+  {name:'吉林省',itemStyle:{color:'#aec7e8'}},
+  {name:'黑龙江省',itemStyle:{color:'#ffbb78'}},
+  {name:'上海市',itemStyle:{color:'#98df8a'}},
+  {name:'江苏省',itemStyle:{color:'#ff9896'}},
+  {name:'浙江省',itemStyle:{color:'#c5b0d5'}},
+  {name:'安徽省',itemStyle:{color:'#c49c94'}},
+  {name:'福建省',itemStyle:{color:'#f7b6d2'}},
+  {name:'江西省',itemStyle:{color:'#c7c7c7'}},
+  {name:'山东省',itemStyle:{color:'#dbdb8d'}},
+  {name:'河南省',itemStyle:{color:'#9edae5'}},
+  {name:'湖北省',itemStyle:{color:'#8dd3c7'}},
+  {name:'湖南省',itemStyle:{color:'#ffffb3'}},
+  {name:'广东省',itemStyle:{color:'#bebada'}},
+  {name:'广西壮族自治区',itemStyle:{color:'#fb8072'}},
+  {name:'海南省',itemStyle:{color:'#80b1d3'}},
+  {name:'重庆市',itemStyle:{color:'#fdb462'}},
+  {name:'四川省',itemStyle:{color:'#b3de69'}},
+  {name:'贵州省',itemStyle:{color:'#fccde5'}},
+  {name:'云南省',itemStyle:{color:'#bc80bd'}},
+  {name:'西藏自治区',itemStyle:{color:'#ccebc5'}},
+  {name:'陕西省',itemStyle:{color:'#ffed6f'}},
+  {name:'甘肃省',itemStyle:{color:'#e41a1c'}},
+  {name:'青海省',itemStyle:{color:'#377eb8'}},
+  {name:'宁夏回族自治区',itemStyle:{color:'#4daf4a'}},
+  {name:'新疆维吾尔自治区',itemStyle:{color:'#984ea3'}}
+];
+
+// 流向数据（不变）
+const links = [
+  {source:'2014',target:'北京市',value:6},
+  {source:'2014',target:'天津市',value:3},
+  {source:'2014',target:'河北省',value:3},
+  {source:'2014',target:'山西省',value:2},
+  {source:'2014',target:'内蒙古自治区',value:2},
+  {source:'2014',target:'辽宁省',value:2},
+  {source:'2014',target:'吉林省',value:2},
+  {source:'2014',target:'黑龙江省',value:2},
+  {source:'2014',target:'上海市',value:5},
+  {source:'2014',target:'江苏省',value:8},
+  {source:'2014',target:'浙江省',value:4},
+  {source:'2014',target:'安徽省',value:3},
+  {source:'2014',target:'福建省',value:3},
+  {source:'2014',target:'江西省',value:4},
+  {source:'2014',target:'山东省',value:4},
+  {source:'2014',target:'河南省',value:3},
+  {source:'2014',target:'湖北省',value:3},
+  {source:'2014',target:'湖南省',value:3},
+  {source:'2014',target:'广东省',value:5},
+  {source:'2014',target:'广西壮族自治区',value:3},
+  {source:'2014',target:'海南省',value:3},
+  {source:'2014',target:'重庆市',value:3},
+  {source:'2014',target:'四川省',value:3},
+  {source:'2014',target:'贵州省',value:2},
+  {source:'2014',target:'云南省',value:3},
+  {source:'2014',target:'西藏自治区',value:1},
+  {source:'2014',target:'陕西省',value:4},
+  {source:'2014',target:'甘肃省',value:2},
+  {source:'2014',target:'青海省',value:2},
+  {source:'2014',target:'宁夏回族自治区',value:2},
+  {source:'2014',target:'新疆维吾尔自治区',value:2},
+
+  {source:'北京市',target:'2018',value:1},
+  {source:'天津市',target:'2018',value:4},
+  {source:'河北省',target:'2018',value:5},
+  {source:'山西省',target:'2018',value:2},
+  {source:'内蒙古自治区',target:'2018',value:2},
+  {source:'辽宁省',target:'2018',value:2},
+  {source:'吉林省',target:'2018',value:2},
+  {source:'黑龙江省',target:'2018',value:3},
+  {source:'上海市',target:'2018',value:2},
+  {source:'江苏省',target:'2018',value:3},
+  {source:'浙江省',target:'2018',value:3},
+  {source:'安徽省',target:'2018',value:3},
+  {source:'福建省',target:'2018',value:3},
+  {source:'江西省',target:'2018',value:3},
+  {source:'山东省',target:'2018',value:3},
+  {source:'河南省',target:'2018',value:3},
+  {source:'湖北省',target:'2018',value:3},
+  {source:'湖南省',target:'2018',value:3},
+  {source:'广东省',target:'2018',value:3},
+  {source:'广西壮族自治区',target:'2018',value:3},
+  {source:'海南省',target:'2018',value:3},
+  {source:'重庆市',target:'2018',value:3},
+  {source:'四川省',target:'2018',value:4},
+  {source:'贵州省',target:'2018',value:2},
+  {source:'云南省',target:'2018',value:2},
+  {source:'西藏自治区',target:'2018',value:1},
+  {source:'陕西省',target:'2018',value:3},
+  {source:'甘肃省',target:'2018',value:2},
+  {source:'青海省',target:'2018',value:2},
+  {source:'宁夏回族自治区',target:'2018',value:2},
+  {source:'新疆维吾尔自治区',target:'2018',value:2},
+
+  {source:'北京市',target:'2021',value:4},
+  {source:'天津市',target:'2021',value:5},
+  {source:'河北省',target:'2021',value:4},
+  {source:'山西省',target:'2021',value:3},
+  {source:'内蒙古自治区',target:'2021',value:2},
+  {source:'辽宁省',target:'2021',value:3},
+  {source:'吉林省',target:'2021',value:3},
+  {source:'黑龙江省',target:'2021',value:3},
+  {source:'上海市',target:'2021',value:4},
+  {source:'江苏省',target:'2021',value:5},
+  {source:'浙江省',target:'2021',value:4},
+  {source:'安徽省',target:'2021',value:5},
+  {source:'福建省',target:'2021',value:4},
+  {source:'江西省',target:'2021',value:4},
+  {source:'山东省',target:'2021',value:4},
+  {source:'河南省',target:'2021',value:4},
+  {source:'湖北省',target:'2021',value:4},
+  {source:'湖南省',target:'2021',value:4},
+  {source:'广东省',target:'2021',value:5},
+  {source:'广西壮族自治区',target:'2021',value:5},
+  {source:'海南省',target:'2021',value:4},
+  {source:'重庆市',target:'2021',value:4},
+  {source:'四川省',target:'2021',value:4},
+  {source:'贵州省',target:'2021',value:3},
+  {source:'云南省',target:'2021',value:4},
+  {source:'西藏自治区',target:'2021',value:2},
+  {source:'陕西省',target:'2021',value:4},
+  {source:'甘肃省',target:'2021',value:3},
+  {source:'青海省',target:'2021',value:3},
+  {source:'宁夏回族自治区',target:'2021',value:3},
+  {source:'新疆维吾尔自治区',target:'2021',value:3},
+
+  {source:'北京市',target:'2024',value:8},
+  {source:'天津市',target:'2024',value:6},
+  {source:'河北省',target:'2024',value:7},
+  {source:'山西省',target:'2024',value:4},
+  {source:'内蒙古自治区',target:'2024',value:3},
+  {source:'辽宁省',target:'2024',value:5},
+  {source:'吉林省',target:'2024',value:4},
+  {source:'黑龙江省',target:'2024',value:4},
+  {source:'上海市',target:'2024',value:7},
+  {source:'江苏省',target:'2024',value:9},
+  {source:'浙江省',target:'2024',value:6},
+  {source:'安徽省',target:'2024',value:6},
+  {source:'福建省',target:'2024',value:5},
+  {source:'江西省',target:'2024',value:5},
+  {source:'山东省',target:'2024',value:7},
+  {source:'河南省',target:'2024',value:6},
+  {source:'湖北省',target:'2024',value:6},
+  {source:'湖南省',target:'2024',value:5},
+  {source:'广东省',target:'2024',value:9},
+  {source:'广西壮族自治区',target:'2024',value:5},
+  {source:'海南省',target:'2024',value:6},
+  {source:'重庆市',target:'2024',value:5},
+  {source:'四川省',target:'2024',value:6},
+  {source:'贵州省',target:'2024',value:4},
+  {source:'云南省',target:'2024',value:5},
+  {source:'西藏自治区',target:'2024',value:2},
+  {source:'陕西省',target:'2024',value:6},
+  {source:'甘肃省',target:'2024',value:4},
+  {source:'青海省',target:'2024',value:3},
+  {source:'宁夏回族自治区',target:'2024',value:3},
+  {source:'新疆维吾尔自治区',target:'2024',value:3}
+];
+
+// 配置：彩色+年份均匀分布
+const option = {
+  tooltip:{trigger:'item',formatter:'{b} → {c} 项政策'},
+  series:[{
+    type:'sankey',
+    layout:'horizontal',
+    data:nodes,
+    links:links,
+    nodeWidth:16,
+    nodeGap:12,
+    lineStyle:{
+      color:'gradient',
+      curveness:0.45,
+      opacity:0.8
+    },
+    emphasis:{focus:'adjacency'},
+    itemStyle:{borderWidth:1,borderColor:'#fff'},
+    label:{fontSize:11,color:'#2c3e50'},
+    layoutSize:['100%','90%'],
+    left:'5%',
+    right:'5%',
+    top:'5%',
+    bottom:'5%'
+  }]
+};
+
+myChart.setOption(option);
+window.addEventListener('resize',()=>myChart.resize());
+</script>
+</body>
